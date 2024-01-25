@@ -195,6 +195,7 @@ __to_string:
 ```
 ##### Biên dịch chương trình:
 `nasm -f elf32 -o Bai1_Linux.o Bai1_Linux.asm`
+
 `ld -m elf_i386 -o Bai1_Linux Bai1_Linux.o`
 ##### Test case 
 ![image](https://github.com/datvn09/2004_Training/assets/157048397/10c45bb4-140c-429e-a3e4-2d25ffc94c41)
@@ -281,6 +282,7 @@ _main:
 
 ##### Biên dịch chương trình
 `nasm -f win32 -o Bai1_Windows.o Bai1_Windows.asm`
+
 `gcc -m32 -o Bai1_Windows Bai1_Windows.o`
 ##### Test case
 
