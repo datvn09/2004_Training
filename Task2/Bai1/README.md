@@ -6,7 +6,7 @@ Chương trình asm: nhân 2 số (không tràn thanh ghi, thừa số trong đo
 - In kết quả
 Code trên Windows và Linux (tùy chọn x86, x64)
 
-#### Trên Linux: [Bai1_Linux](https://github.com/datvn09/2004_Training/blob/main/Task2/Bai1/Bai1_Linux.asm)
+#### Trên Linux: [Bai1_Linux.asm](https://github.com/datvn09/2004_Training/blob/main/Task2/Bai1/Bai1_Linux.asm)
 ##### Code
 ```
 section .data
