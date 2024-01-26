@@ -10,11 +10,17 @@ Code trên Windows và Linux (tùy chọn x86, x64)
 #### Trên Linux: [Bai2_Linux.asm](https://github.com/datvn09/2004_Training/blob/main/Task2/Bai2/Bai2_Linux.asm)
 
 #### Ý tưởng: Vì là input là một số rất lớn tràn thanh ghi nên ta sẽ cộng theo chuỗi. Tức lấy từng kí tự của chuỗi num1 (input số thứ nhất), và chuỗi thứ 2 theo thứ tự từ phải sang trái và cộng dồn. 
-ví dụ:   num1 = '1234'
-         num2 = '67895'
-      4 + 5 = 9 < 10 --> 9
-      3 + 9 = 12 > 10 --> 29, và al=1
-      2 + 8 + al = 11 > 10 --> 129 và al =1
+ví dụ:
+
+num1 = '1234'
+         
+num2 = '67895'
+         
+4 + 5 = 9 < 10 --> 9
+
+3 + 9 = 12 > 10 --> 29, và al=1
+
+2 + 8 + al = 11 > 10 --> 129 và al =1
       
 ...
       
