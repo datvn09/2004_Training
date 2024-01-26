@@ -258,7 +258,7 @@ _main:
     push eax
     push format_result
     call _printf
-    add esp, 4
+    add esp, 8
 
     jmp end_program
 
