@@ -258,7 +258,7 @@ _main:
     ; tính tích
     mov bl, [num2] 
     mov  al, [num1]
-	mul bl
+    mul bl
     mov [result], eax
 
     ; in chuỗi s3
@@ -269,7 +269,7 @@ _main:
     ; in kết quả 
     mov eax, [result]
     push eax 
-	push format     
+    push format     
     call _printf
     add esp, 8
     
