@@ -15,8 +15,11 @@ ví dụ:   num1 = '1234'
       4 + 5 = 9 < 10 --> 9
       3 + 9 = 12 > 10 --> 29, và al=1
       2 + 8 + al = 11 > 10 --> 129 và al =1
+      
       ...
+      
       kết quả: 69129
+      
 Ý tưởng không hay, nhưng hiện tại em chưa nghĩ ra hướng làm khác 
 ##### Code
 ```
