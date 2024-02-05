@@ -187,7 +187,7 @@ Có một số cờ cụ thể được đặt trong không gian địa chỉ qu
     
 Lưu ý: Điều này không phát hiện được trình gỡ lỗi Visual Studio (msvsmon).
 
-[Visual Studio](![image](https://github.com/datvn09/2024_Training/assets/157048397/3db57a31-0f32-41ff-8df7-10ef77e34191))
+![image](https://github.com/datvn09/2024_Training/assets/157048397/3db57a31-0f32-41ff-8df7-10ef77e34191)
 
 ![image](https://github.com/datvn09/2024_Training/assets/157048397/e0ba3fbb-c555-48bb-805b-1c9a5d55fff1)
 
