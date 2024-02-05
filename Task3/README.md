@@ -191,6 +191,58 @@ Lưu ý: Điều này không phát hiện được trình gỡ lỗi Visual Stud
 
 ![image](https://github.com/datvn09/2024_Training/assets/157048397/e0ba3fbb-c555-48bb-805b-1c9a5d55fff1)
 
+3. Debug Flags -- Using Win32 API -- CheckRemoteDebuggerPresent
+
+Gọi hàm `NtQueryInformationProcess` `GetCurrentProcess()` để lấy thông tin kiểm tra xem trình gỡ lỗi (trong một quy trình khác trên cùng một máy) có được gắn vào quy trình hiện tại hay không.
+
+![image](https://github.com/datvn09/2024_Training/assets/157048397/3c9233dc-4484-4372-a6fb-5e806e1164b0)
+
+4. Object Handles -- CreateFile()
+
+Thủ thuật này sử dụng kernel32!CreateFileW() (hoặc kernel32!CreateFileA()) để mở riêng tệp của quy trình hiện tại. Nếu cuộc gọi không thành công, có thể coi rằng quy trình hiện tại đang được chạy với sự có mặt của trình gỡ lỗi.
+
+![image](https://github.com/datvn09/2024_Training/assets/157048397/dbda65be-be9a-4117-ace0-ef7f6f778125)
+
+5. Exceptions -- UnhandledExceptionFilter()
+
+![image](https://github.com/datvn09/2024_Training/assets/157048397/532b0ad2-cf80-48b7-b86c-a61221bfa288)
+
+6. Timing -- GetTickCount()
+
+Có thể kiểm tra thời gian hệ thống trước và sau một khối lệnh nhất định và giả sử rằng thời gian trôi qua được đo phải nhỏ hơn một giá trị nào đó. Nếu ứng dụng đang được phân tích, có khả năng các điểm dừng được đặt trong khối lệnh đó. Nếu vậy thì thời gian thực hiện sẽ vượt quá thời gian giả định.
+
+![image](https://github.com/datvn09/2024_Training/assets/157048397/f0517b57-9cf9-4cec-8a72-bf1decfa6427)
+
+7. Process Memory -- Hardware Breakpoints
+
+Hardware Breakpoints có thể được phát hiện bằng cách kiểm tra các thanh ghi gỡ lỗi DR0 đến DR3:
+
+![image](https://github.com/datvn09/2024_Training/assets/157048397/96ddef6c-e9a0-45ac-a1ac-7a8904270f06)
+
+8. Assembly instructions -- DebugBreak
+
+Có thể tạo breakpoint interrupt trong mã của mình, mã này sẽ được trình gỡ lỗi hiểu là điểm dừng phần mềm (giống như do người dùng đặt)
+
+![image](https://github.com/datvn09/2024_Training/assets/157048397/c4775504-4e1f-4483-9fb7-36d1b9d30f81)
+
+9. Direct debugger interaction -- Self-Debugging
+
+Nếu một tiến trình đang được gỡ lỗi thì không thể đính kèm một trình gỡ lỗi khác vào nó. Để kiểm tra xem ứng dụng có được gỡ lỗi hay không bằng cách tận dụng thực tế này, cần bắt đầu một quy trình khác để cố gắng đính kèm vào ứng dụng.
+
+![image](https://github.com/datvn09/2024_Training/assets/157048397/6204a26d-5895-4904-92e9-38660c41c094)
+
+10. Misc -- DbgPrint()
+
+Các hàm gỡ lỗi như ntdll!DbgPrint() và kernel32!OutputDebugStringW() gây ra ngoại lệ DBG_PRINTEXCEPTION_C (0x40010006). Nếu một chương trình được thực thi với trình gỡ lỗi đính kèm thì trình gỡ lỗi sẽ xử lý ngoại lệ này. Nhưng nếu không có trình gỡ lỗi và trình xử lý ngoại lệ được đăng ký, thì ngoại lệ này sẽ bị trình xử lý ngoại lệ bắt.
+
+![image](https://github.com/datvn09/2024_Training/assets/157048397/cf9a383f-21d9-4efe-9271-e324039ca6cb)
+
+
+
+
+
+
+
 
 
 
