@@ -168,3 +168,30 @@ int main()
 }
 ```
 
+- Chương trình c++ cơ bản (PE32+ executable (console) x86-64, for MS Windows) thực hiện kiểm tra chuỗi nhập vào so với chuỗi mặc định cho sẵn có sử dụng 10 kỹ thuật anti_debug cơ bản:
+
+1. Debug Flags -- Using Win32 API -- IsDebuggerPresent()
+
+![image](https://github.com/datvn09/2024_Training/assets/157048397/36b841eb-394c-4597-aee4-6ae4e44d3a5f)
+
+Phát hiện và cản trở việc phân tích thủ công, hàm IsDebuggerPresent kiểm tra cờ BeingDebugged trong PEB để phát hiện trình gỡ lỗi.
+
+2. Debug Flags -- Using Win32 API -- NtGlobalFlag
+
+![image](https://github.com/datvn09/2024_Training/assets/157048397/8c9c2e4a-f1f9-45ff-951f-019a60ff4c19)
+
+Có một số cờ cụ thể được đặt trong không gian địa chỉ quy trình khi nó được gỡ lỗi. NtGlobalFlag là tập hợp các cờ nằm ​​trong PEB có thể cho biết sự hiện diện của trình gỡ lỗi. 
+    FLG_HEAP_ENABLE_TAIL_CHECK   0x10
+    FLG_HEAP_ENABLE_FREE_CHECK   0x20
+    FLG_HEAP_VALIDATE_PARAMETERS 0x40
+    
+Lưu ý: Điều này không phát hiện được trình gỡ lỗi Visual Studio (msvsmon).
+
+[Visual Studio](![image](https://github.com/datvn09/2024_Training/assets/157048397/3db57a31-0f32-41ff-8df7-10ef77e34191))
+
+![image](https://github.com/datvn09/2024_Training/assets/157048397/e0ba3fbb-c555-48bb-805b-1c9a5d55fff1)
+
+
+
+
+
