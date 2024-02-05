@@ -10,18 +10,11 @@
 DWORD pid;
 
 bool Check1() {     //2. Object Handles -- CreateFile()
-    char szFileName[MAX_PATH];
+    CHAR szFileName[MAX_PATH];
     if (0 == GetModuleFileNameA(NULL, szFileName, sizeof(szFileName)))
         return false;
 
-    HANDLE hFile = CreateFileA(szFileName, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, 0);
-    if (hFile == INVALID_HANDLE_VALUE) {
-        CloseHandle(hFile);
-        return true;
-    }
-    CloseHandle(hFile);
-    return false;
-}
+    return INVALID_HANDLE_VALUE == CreateFileA(szFileName, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, 0);
 
 bool Check2()     //8. Misc -- DbgPrint() 
 {
@@ -197,7 +190,7 @@ Gọi hàm `NtQueryInformationProcess` `GetCurrentProcess()` để lấy thông 
 
 Thủ thuật này sử dụng kernel32!CreateFileW() (hoặc kernel32!CreateFileA()) để mở riêng tệp của quy trình hiện tại. Nếu cuộc gọi không thành công, có thể coi rằng quy trình hiện tại đang được chạy với sự có mặt của trình gỡ lỗi.
 
-![image](https://github.com/datvn09/2024_Training/assets/157048397/dbda65be-be9a-4117-ace0-ef7f6f778125)
+![image](https://github.com/datvn09/2024_Training/assets/157048397/c32da67c-f6e8-4976-bb69-8832184827e0)
 
 5. Exceptions -- UnhandledExceptionFilter()
 
