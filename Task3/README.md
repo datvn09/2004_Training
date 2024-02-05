@@ -52,16 +52,16 @@ int main()
     std::cout << "Input password > ";
     std::cin >> input;
 
-    //1. Debug Flags -- Using Win32 API -- CheckRemoteDebuggerPresent
-    if (IsDebuggerPresent() == 1)
+    //1. Debug Flags -- Using Win32 API -- IsDebuggerPresent()
+    if (IsDebuggerPresent() == 1) // Hàm IsDebuggerPresent() trả về 1 nếu có một trình gỡ lỗi đang chạy và trả về 0 nếu không có.
     {
         std::cout << "Debug detected 1.\n";
-        exit(1);
+        exit(1);   //kết thúc chương trình với mã lỗi 1 
     }
 
     //1. Debug Flags -- Using Win32 API -- NtGlobalFlag
-    PDWORD pNtGlobalFlag = (PDWORD)(__readgsqword(0x60) + 0xBC);
-    if ((*pNtGlobalFlag) & NT_GLOBAL_FLAG_DEBUGGED)
+    PDWORD pNtGlobalFlag = (PDWORD)(__readgsqword(0x60) + 0xBC);//Đọc giá trị từ offset 0x60 trong cấu trúc TEB của thread hiện tại.
+    if ((*pNtGlobalFlag) & NT_GLOBAL_FLAG_DEBUGGED)  //Kiểm tra xem cờ NT_GLOBAL_FLAG_DEBUGGED có được set hay không
     {
         std::cout << "Debug detected 2.\n";
         exit(1);
@@ -88,7 +88,7 @@ int main()
 
     //3. Exceptions -- UnhandledExceptionFilter()
     PTOP_LEVEL_EXCEPTION_FILTER previousUnhandledExceptionFilter = SetUnhandledExceptionFilter(CustomUnhandledExceptionFilter);
-    RaiseException(EXCEPTION_FLT_DIVIDE_BY_ZERO, 0, 0, NULL);
+    RaiseException(EXCEPTION_FLT_DIVIDE_BY_ZERO, 0, 0, NULL);   //Gây ra một ngoại lệ
     SetUnhandledExceptionFilter(previousUnhandledExceptionFilter);
     if (isDebugged)
     {
@@ -112,7 +112,7 @@ int main()
     //5. Process Memory -- Hardware Breakpoints
     CONTEXT context = {};
     context.ContextFlags = CONTEXT_DEBUG_REGISTERS;
-    GetThreadContext(GetCurrentThread(), &context);
+    GetThreadContext(GetCurrentThread(), &context);  // Lấy thông tin về trạng thái hiện tại của thanh ghi và thanh ghi gỡ lỗi
     if (context.Dr0 || context.Dr1 || context.Dr2 || context.Dr3)
     {
         std::cout << "Debug detected 7.\n";
@@ -136,24 +136,20 @@ int main()
     }
 
     //7. Direct debugger interaction -- Self-Debugging
-    if (DebugActiveProcess(pid))
+    if (!DebugActiveProcess(pid))  //kết nối đến quá trình với ID pid sử dụng hàm DebugActiveProcess
     {
         std::cout << "Debug detected 9.\n";
-        exit(1);
-    }
-    else
-    {
         HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, pid);
         TerminateProcess(hProcess, 0);
+        exit(0);
     }
-
     //8. Misc -- DbgPrint()
     if (Check2() == true)
     {
         std::cout << "Debug detected 10.\n";
         exit(1);
     }
-    
+
 
     if (strcmp(flag, input) == 0)
     {
@@ -229,7 +225,7 @@ Có thể tạo breakpoint interrupt trong mã của mình, mã này sẽ đư�
 
 Nếu một tiến trình đang được gỡ lỗi thì không thể đính kèm một trình gỡ lỗi khác vào nó. Để kiểm tra xem ứng dụng có được gỡ lỗi hay không bằng cách tận dụng thực tế này, cần bắt đầu một quy trình khác để cố gắng đính kèm vào ứng dụng.
 
-![image](https://github.com/datvn09/2024_Training/assets/157048397/6204a26d-5895-4904-92e9-38660c41c094)
+![image](https://github.com/datvn09/2024_Training/assets/157048397/90078d42-a073-4328-bf97-52a121fa9dd3)
 
 10. Misc -- DbgPrint()
 
