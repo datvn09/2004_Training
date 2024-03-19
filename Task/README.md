@@ -142,4 +142,89 @@ int main() {
 }
 ```
 
+- Sử dụng UPX (Ultimate Packer for eXecutables) để pack file thực thi đơn giản.
+- Ý tưởng:
+    Nhập chuỗi kí tự và kiểm tra
+    Sử dụng một số kĩ thuật antidebug để thay đổi phát hiện thay đổi luồng chương trình, thay đổi giá trị mảng giá trị.
+    Vận dụng các phép toán ADD XOR, mã hóa base64 (với bảng mã custom), giải phương trình với Z3...
+
+Solution:
+
+```
+#9 ki tu dau
+SHUFFLE = [8, 3, 2, 6, 1, 5, 0, 4, 7]
+ADD32 = [0xEF, 0xBE, 0xFD, 0xDE, 0xAD, 0xDE, 0xE1, 0xFE, 0x37]
+XOR = [0x76, 0x58, 0x44, 0x49, 0x8D, 0x1A, 0x5F, 0x38, 0xD4]
+cipher = [108, 109, 55, 123, 72, 43, 10, 66, 16]
+flag = [0] * 9
+
+for i in range(9):
+    flag[SHUFFLE[i]] = ((cipher[SHUFFLE[i]] ^ XOR[i]) - ADD32[i]) & 0xFF
+
+for i in range(9):
+    print(chr(flag[i]), end = '')
+
+#9 ki tu tiep theo
+#tim chuoi base 64 custom test = 0 --> tuong ung voi chuong trinh khong debug
+def custom(test):
+    base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_+@/"
+    n = len(base64_chars)
+    custom_chars = [' '] * n  
+
+    for i in range(n):
+        custom_chars[i] = base64_chars[(i * test + i + n + i * 4) % n]
+
+    return ''.join(custom_chars)
+#decode
+def custom_base64_decode(input_string):
+    base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_+@/"
+    custom_chars = custom(0)
+
+    decode_map = {}
+    for i in range(len(custom_chars)):
+        decode_map[custom_chars[i]] = base64_chars[i]
+
+    decoded = ""
+    for c in input_string:
+        if c in custom_chars and c != '=':
+            decoded += decode_map[c]
+
+    return decoded
+
+print(custom_base64_decode("BbhuN4bn+"), end = '')
+
+#su dung z3 tim cac ki tu cuoi cung
+from z3 import *
+answer = [Int(f"answer{i}") for i in range (14)]
+
+s = Solver()
+
+s.add(answer[6] + answer[7] + answer[8] - answer[5] + answer[13] == 228)
+s.add(answer[6] + answer[5] + answer[5] - answer[2] == 179)
+s.add(answer[9] + answer[3] + answer[2] + answer[5] == 384)
+s.add(answer[7] + answer[3] - answer[10] - answer[11] == 14)
+s.add(answer[1] - answer[9] - answer[5] + answer[4] == -40)
+s.add(answer[2] - answer[3] + answer[5] - answer[12] == 109)
+s.add(answer[8] - answer[7] - answer[6] + answer[5] -answer[11] == -81)
+s.add(answer[0] + answer[8] - answer[5] - answer[3] == 23)
+s.add(answer[5] + answer[6] + answer[8] + answer[2] == 400)
+s.add(answer[5] - answer[4] - answer[5] + answer[9] == 46)
+s.add(answer[2] - answer[9] + answer[5] - answer[0] == 34)
+s.add(answer[2] - answer[5] + answer[4] - answer[9] == -42)
+s.add(answer[8] + answer[3] + answer[7] - answer[6] -answer[12] == 155)
+s.add(answer[6] - answer[5] - answer[0] - answer[5] == -242)
+s.add(answer[2] - answer[5] - answer[6] - answer[4] == -118)
+
+if s.check() == sat:
+    model = s.model()
+    for i in range (14):
+        print(f"{chr(model[answer[i]].as_long())}", end = '')
+else:
+    print("No solution")
+
+#R3verSe_w1th_d@tVn_trA1nIng_2o24
+```
+
+
+      
 
