@@ -148,7 +148,7 @@ int main() {
 
     Nhập chuỗi kí tự và kiểm tra.
   
-    Sử dụng một số kĩ thuật antidebug để thay đổi phát hiện thay đổi luồng chương trình, thay đổi giá trị mảng giá trị.
+    Sử dụng một số kĩ thuật antidebug để phát hiện thay đổi luồng chương trình, thay đổi giá trị mảng giá trị.
   
     Vận dụng các phép toán ADD XOR, mã hóa base64 (với bảng mã custom), giải phương trình với Z3...
 
